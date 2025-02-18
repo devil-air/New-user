@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login</title>
+</head>
+<body class="h-screen flex items-center justify-center bg-black text-white">
+
+    <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm text-center">
+        <h1 class="text-2xl font-bold">Device Login</h1>
+
+        <form id="login-form">
+            <input type="text" id="key-input" placeholder="Enter Key" required 
+                class="w-full p-3 rounded bg-gray-700 text-white mb-4">
+            <button type="submit" class="w-full bg-blue-500 py-2 rounded hover:bg-blue-600">
+                Login
+            </button>
+        </form>
+
+        <p class="mt-4 text-gray-400">Your Device ID: <span id="device-id"></span></p>
+    </div>
+
+    <script>
+        function generateDeviceId() {
+            let storedId = localStorage.getItem("device_id");
+            if (!storedId) {
+                storedId = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                localStorage.setItem("device_id", storedId);
+            }
+            return storedId;
+        }
+
+        document.getElementById("device-id").innerText = generateDeviceId();
+
+        document.getElementById("login-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const keyInput = document.getElementById("key-input").value.trim();
+            let keys = JSON.parse(localStorage.getItem("device_keys")) || {};
+            let deviceId = localStorage.getItem("device_id");
+
+            if (keys[keyInput] && keys[keyInput] === deviceId) {
+                sessionStorage.setItem("user_logged_in", "true");
+                window.location.href = "play.html";
+            } else {
+                alert("Invalid Key or Device!");
+            }
+        });
+    </script>
+
+</body>
+</html>
