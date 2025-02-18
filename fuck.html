@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANXT VIP ULTRA SYSTEM</title>
+
+    <!-- Particle.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body {
+            background: url('https://i.postimg.cc/L67qPNsM/images-15.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            width: 500px;
+            height: 350px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0px 0px 40px rgba(0, 255, 255, 0.6);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .header {
+            font-size: 30px;
+            font-weight: bold;
+            color: #00fff0;
+            text-shadow: 0 0 25px #00fff0;
+            margin-bottom: 15px;
+        }
+
+        .status {
+            font-size: 16px;
+            color: #ffffff;
+            opacity: 0.8;
+        }
+
+        .period-box {
+            font-size: 20px;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 25px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            width: 350px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            animation: glowPulse 3s infinite alternate;
+            margin: 0 auto;
+        }
+
+        .time-box {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #ffffff;
+            opacity: 0.8;
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+            100% { box-shadow: 0 0 35px rgba(0, 255, 255, 0.9); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <div class="header">ANXT VIP ULTRA SYSTEM</div>
+        <p class="status">CONNECTED TO VIP SERVER</p>
+        <div class="period-box" id="periodNumber">Loading Period...</div>
+        <div class="result-box" id="calculatedResult">Calculating...</div>
+        <p class="time-box" id="localTime">Local Time: --:--:--</p>
+    </div>
+
+    <script>
+        function eulerTotient(n) {
+            let result = n;
+            let p = 2;
+
+            while (p * p <= n) {
+                if (n % p === 0) {
+                    while (n % p === 0) {
+                        n = Math.floor(n / p);
+                    }
+                    result -= Math.floor(result / p);
+                }
+                p += 1;
+            }
+            
+            if (n > 1) {
+                result -= Math.floor(result / n);
+            }
+            return result;
+        }
+
+        function predictBigOrSmall(n) {
+            return (eulerTotient(n) % 10) >= 5 ? "SMALL" : "BIG";
+        }
+
+        function updatePeriodAndPrediction() {
+            let now = new Date();
+            let istOffset = 5.5 * 60 * 60 * 1000; // Convert IST (GMT+5:30) offset to milliseconds
+            now = new Date(now.getTime() + istOffset); // Adjust local time to IST
+
+            let startHour = 5;
+            let startMinute = 29;
+
+            let currentHour = now.getUTCHours();
+            let currentMinute = now.getUTCMinutes();
+
+            let elapsedMinutes = (currentHour * 60 + currentMinute) - (startHour * 60 + startMinute);
+
+            if (elapsedMinutes < 0) {
+                elapsedMinutes = 0;
+            }
+
+            let formattedDate = now.getUTCFullYear().toString() +
+                                String(now.getUTCMonth() + 1).padStart(2, '0') +
+                                String(now.getUTCDate()).padStart(2, '0');
+
+            let periodNumber = parseInt(formattedDate + "10001" + String(elapsedMinutes).padStart(4, '0'));
+
+            document.getElementById('periodNumber').textContent = `Period: ${periodNumber}`;
+            document.getElementById('calculatedResult').textContent = predictBigOrSmall(periodNumber);
+        }
+
+        function updateTime() {
+            let now = new Date();
+            let istOffset = 5.5 * 60 * 60 * 1000; 
+            now = new Date(now.getTime() + istOffset);
+
+            let hours = String(now.getUTCHours()).padStart(2, '0');
+            let minutes = String(now.getUTCMinutes()).padStart(2, '0');
+            let seconds = String(now.getUTCSeconds()).padStart(2, '0');
+
+            document.getElementById('localTime').textContent = `Local Time: ${hours}:${minutes}:${seconds}`;
+        }
+
+        updatePeriodAndPrediction();
+        setInterval(updatePeriodAndPrediction, 60000); // Update every 1 minute
+        setInterval(updateTime, 1000); // Update time every second
+
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 150, density: { enable: true, value_area: 800 } },
+                color: { value: "#00fff0" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 4 },
+                move: { enable: true, speed: 3 }
+            },
+            interactivity: {
+                events: { onhover: { enable: true, mode: "repulse" } }
+            }
+        });
+    </script>
+
+</body>
+</html>
