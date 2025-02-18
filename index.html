@@ -3,51 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Login</title>
+    <title>ANXT VIP SERVER</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+            overflow: hidden;
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .header {
+            background-color: black;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .logo {
+            margin-top: 20px;
+        }
+        .logo img {
+            width: 150px;
+            height: auto;
+            cursor: pointer;
+        }
+        .title {
+            color: #f1c40f;
+            font-size: 22px;
+            margin-top: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .button {
+            display: block;
+            width: 220px;
+            margin: 15px auto;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            border-radius: 25px;
+            border: none;
+            background: linear-gradient(to right, #8e44ad, #f39c12);
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+        }
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.4);
+        }
+    </style>
 </head>
-<body class="h-screen flex items-center justify-center bg-black text-white">
+<body>
+    <div id="particles-js"></div>
 
-    <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm text-center">
-        <h1 class="text-2xl font-bold">Device Login</h1>
-
-        <form id="login-form">
-            <input type="text" id="key-input" placeholder="Enter Key" required 
-                class="w-full p-3 rounded bg-gray-700 text-white mb-4">
-            <button type="submit" class="w-full bg-blue-500 py-2 rounded hover:bg-blue-600">
-                Login
-            </button>
-        </form>
-
-        <p class="mt-4 text-gray-400">Your Device ID: <span id="device-id"></span></p>
+    <div class="header">ANXT VIP SERVER</div>
+    
+    <div class="logo">
+        <a href="https://t.me/+UXXqSylBcNZhMGM9" target="_blank">
+            <img src="https://i.postimg.cc/76v331Vb/cropped-image-2.png" alt="ANEXITY Logo">
+        </a>
     </div>
 
+    <div class="title">Select Your Game Mod</div>
+
+    <button class="button" onclick="goToPage()">91 CLUB</button>
+    <button class="button" onclick="goToPage()">TIRANGA</button>
+    <button class="button" onclick="goToPage()">82 LOTTERY</button>
+    <button class="button" onclick="goToPage()">BDG WIN</button>
+    <button class="button" onclick="goToPage()">BIG MUMBAI</button>
+
     <script>
-        function generateDeviceId() {
-            let storedId = localStorage.getItem("device_id");
-            if (!storedId) {
-                storedId = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-                localStorage.setItem("device_id", storedId);
-            }
-            return storedId;
+        function goToPage() {
+            window.location.href = "fuck.html";
         }
 
-        document.getElementById("device-id").innerText = generateDeviceId();
-
-        document.getElementById("login-form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            const keyInput = document.getElementById("key-input").value.trim();
-            let keys = JSON.parse(localStorage.getItem("device_keys")) || {};
-            let deviceId = localStorage.getItem("device_id");
-
-            if (keys[keyInput] && keys[keyInput] === deviceId) {
-                sessionStorage.setItem("user_logged_in", "true");
-                window.location.href = "play.html";
-            } else {
-                alert("Invalid Key or Device!");
+        // Initialize particles.js
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                move: { enable: true, speed: 2, direction: "none", out_mode: "out" }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" }
+                },
+                modes: {
+                    repulse: { distance: 100, duration: 0.4 },
+                    push: { particles_nb: 4 }
+                }
             }
         });
     </script>
-
 </body>
 </html>
